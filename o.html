@@ -1,0 +1,140 @@
+<!doctype html><html>
+	<head>
+		<style>
+			
+		</style>
+		<script src="./atelier.js"></script>
+		<script>
+			let load_data = 1;//0;
+			let devel = 0//1;//0;
+			if(load_data) {
+				var scr_dat = document.createElement('script');
+				scr_dat.src = './data.js';
+				document.head.appendChild(scr_dat);
+			}
+			if(devel) {
+				var scr_dev = document.createElement('script');
+				scr_dev.src = './dev.js'
+				document.head.appendChild(scr_dev);
+			}
+		</script>
+		<script src="./ui.js"></script>
+		<title>Fort@dmin</title>
+	</head>
+	<body>
+		<div id="title">
+			<h1>Fort@dmin</h1>
+			<h3>by <a href="https://github.com/ch1p2/js2023kgamesentry">ch1p2</a></h3>
+			<details>
+				<summary>story</summary>
+				<p>In the 1210s, people who call themselves "tenseisya" suddenly appeared from nowhere. There are rumors that they are from unheard-of metropolises like "shanghai" or "nihon", and there are also rumors that they are from the distant future.</p>
+				<p>Even though these people of unknown origin are very suspicious, they all have a huge amount of esoteric knowledge. People call these miraculous knowledge and technologies "mahou".</p>
+				<p>Under the guidance of the tenseisyas, people also use this knowledge to create "madougu", which are magical tools that even ordinary people can use. These madougus are either powerful or have incredible functions.</p>
+				<p>Relying on the technology of madougus, the tenseisyas quickly accumulated a lot of wealth and power, and became great chaebols.</p>
+				<p>However, there are always those who covet the power of knowledge. They call themselves boukensya and try to steal madougus or their technology from the tenseisyas. So the tenseisyas built huge and complex underground fortifications to resist the invasion.</p>
+				<p>Later, the tenseisyas discovered that simply keeping the intruders out would be costly and bring them a bad name.</p>
+				<p>One day, on a whim, a certain tenseisya decides to set up traps and shops that provided all kinds of magical magic tools or medicines in the fortifications, and placed some unimportant irrelevant knowledge as prizes deep in the fortifications, and announced a challenge to adventurers.</p>
+				<p>Soon, the tenseisya gained great wealth and fame, because the value of the knowledge as the prize was completely insignificant compared with the income from selling magic tools, medicines, and souvenirs, and adventurers also came in with the hope of obtaining the knowledge of the tenseisyas. The rest of the tenseisyas followed suit.</p>
+				<p>The heroine is a lazy neet who can't find a job. However, the heroine's grandmother is the secretary of a tenseisya, and helped the heroine to get a job of administering a fortification.</p>
+			</details>
+		</div>
+		<div id="system">
+			<i id="loadtext">leave this blank for new game</i><input id="loadbox">
+			<button id="loadbtn" onclick="ui.load()">load</button>
+			<button id="savebtn" onclick="ui.save()" style="display:none">save</button>
+			<p id="savecontent" style="display:none">
+				save the below string:<br />
+				<input id="savebox">
+			</p>
+			<div id="help">
+				<a href="https://github.com/ch1p2/js2023kgamesentry">help page</a>
+			</div>
+			
+		</div>
+		<div id="game" style="display:none">
+			<div id="status">
+				<h2>Status</h2>
+				<div id="days">
+					<h3>week: <i id="dateweek">1</i> day: <i id="dateday">1</i></h3>
+					<h3>money: <i id="datemoney">1</i>$</h3>
+				</div>
+				<div id="items">
+					<h3>items</h3>
+					<details>
+						<summary>filter</summary>
+						<select id="SelFilBy1" size="5" oninput="ui.checkfilter()">
+							<option value="-1" selected>none</option>
+							<option value="0">filter by item</option>
+							<option value="1">filter by category</option>
+							<option value="2">filter by tag</option>
+						</select>
+						<select id="SelFilBy2" size="5" style="display:none"></select>
+						<br /><button id="filok" onclick="ui.reloadBItem()">ok</button>
+					</details>
+					<select id="ItemBoxList" size="1" oninput="ui.iboninput()"></select>
+					<button id="ItemBoxListExp" onclick="ui.expandSel(document.getElementById('ItemBoxList'), document.getElementById('ItemBoxListExp'))">+</button>
+					<!-- <details id="ItemBoxDetail" open></details> -->
+					<details id="ItemBoxDetail"></details>
+					<input id="buysell" oninput="ui.bsoninput()" type="number" min="1" max="99" step="1">
+					<button id="buy" onclick="ui.buysell(0)">buy</button>
+					<button id="sell" onclick="ui.buysell(1)">sell</button>
+					(<i id="buyday">0</i> days needed)
+				</div>
+				<div id="tasks">
+					<h3>tasks</h3>
+					<ul>
+						<li id="task1">earn 999999$</li>
+						<li id="task2">get any item with quality greater than 999</li>
+						<li id="task3">get any item whose cost is 0$</li>
+						<li id="task4">get any item with damage greater than 999</li>
+						<li id="task5">get any item with infinity total damage</li>
+					</ul>
+				</div>
+			</div>
+			<hr />
+			<div id="actions">
+				<h2>Actions</h2>
+				<div id="actionbuttons">
+					<button id="switchToAtelier" onclick="ui.switchTO(1)">Atelier</button>
+					<button id="switchToExplore" onclick="ui.switchTO(2)">Excavation</button>
+					<button id="switchToFactory" onclick="ui.switchTO(0)">Factory</button>
+				</div>
+				<div id="fakebuttons" style="display:none">
+					<button disabled>Atelier</button>
+					<button disabled>Excavation</button>
+					<button disabled>Factory</button>
+				</div>
+				<div id="factory" style="display:none">
+
+					<h3>Factory</h3>
+					<button id="facbtn" onclick="ui.cfac()">factory</button>
+					<div id="facdiv"></div>
+				</div>
+				<div id="atelier">
+					<h3>Atelier</h3>
+					<button id="creater" onclick="ui.newRecipe()">new recipe</button>
+					<button id="createa" onclick="ui.newAtelier()">new synthesize</button>
+					<div id="newAtelier"></div>
+					<div id="newRecipe"></div>
+				</div>
+				<div id="explore" style="display:none">
+					<h3>Excavation</h3>
+					<button onclick="ui.exca()">excavation (1 day)</button>
+				</div>
+			</div>
+		</div>
+		<hr />
+		<div id="encyc" style="display:none">
+			
+			<h2>Encyclopedia</h2>
+			<button onclick="ui.encytoggle()">toggle</button>
+			<details open><summary>ITEMS</summary><ul id="eitem"></ul></details>
+			<details open><summary>CATEGORIES</summary><ul id="ecat"></ul></details>
+			<details id="etag" open><summary>TAGS</summary>
+				<ul id="etag1"></ul>
+				<ul id="etag2"></ul></details>
+			<details open><summary>EFFECTS</summary><ul id="eeff"></ul></details>
+			
+		</div>
+	</body>
+</html>
